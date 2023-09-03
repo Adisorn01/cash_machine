@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>Cardless Cash Vending Machine</h1>
+    <div class="container">
+      <h1>เลือกจำนวนเงินที่ต้องการ</h1>
+      <input type="text" id="num" value="0" disabled/>
+      <p class="button1">
+        <button class="btn btn-info text-light" onclick="addNum('+100')" oncontextmenu="addNum('-100')">
+          100
+        </button>
+        <button class="btn btn-info text-light" onclick="addNum('+500')" oncontextmenu="addNum('-500')">
+          500
+        </button>
+        <button class="btn btn-info text-light" onclick="addNum('+1000')" oncontextmenu="addNum('-1000')">
+          1000
+        </button>
+        <button class="btn btn-info text-light" onclick="addNum('+5000')" oncontextmenu="addNum('-5000')">
+          5000
+        </button>
+      </p>
+      <p class="button2">
+        <button class="btn btn-success" onclick="checkout()" onmouseup="changecolor()">ถอนเงิน</button>
+        <button class="btn btn-danger" onclick="clearrr()">เคลียร์ค่า</button>
+      </p>
+    </div>
+    <div class="bottom-container">
+      <div class="history">
+        <h2>ประวัติการถอนเงิน</h2>
+        <ul id="history"></ul>
+      </div>
+      <div class="money">
+        <h2>ยอดเงินหลังถอน</h2>
+        <div class="alert alert-info" role="alert">
+            เงินในกระเป๋า: $<span id="wallet">0</span>
+          </div>
+          <div class="alert alert-warning" role="alert" id="box">
+            เงินคงเหลือ: $<span id="bank">20000</span>
+          </div>
+      </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <foot class="text-center "><div class="footer">66309010012 : Adisorn Imyim</div></foot>
+    <!-- <footer class="text-center">66309010012 : Adisorn Imyim</footer> -->
+    <script>
+      //
+
+      function addNum(op) {
+        let length = op.length;
+        let opn = op.substring(0, 1);
+        let opv = op.substring(1, length);
+        let qty = document.getElementById("num");
+        let val_qty = parseInt(qty.value);
+        if (opn === "+") {
+          val_qty += parseInt(opv);
+        } else if (opn === "-") {
+          if (qty.value >= parseInt(opv)) {
+            val_qty -= parseInt(opv);
+          } else {
+          }
+        }
+        qty.value = val_qty;
+        event.preventDefault()
+      }
+      function checkout() {
+        let qty = document.getElementById("num");
+        let val_qty = parseInt(qty.value);
+        let cart = document.getElementById("wallet");
+        let val_cart = parseInt(cart.innerText);
+        let history = document.getElementById("history");
+        let bank = document.getElementById("bank");
+        let val_bank = parseInt(bank.innerText);
+        if (val_qty == 0) {
+          Swal.fire({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "ท่านไม่ได้ระบุเงินที่ต้องการถอน",
+            footer: 'กรุณาลองใหม่อีกครั้ง',
+          });
+        }else if (val_qty <= val_bank) {
+          cart.innerHTML = val_cart + val_qty;
+          bank.innerHTML = val_bank - val_qty;
+          let li = document.createElement("li");
+          li.innerHTML = "ทำรายการเบิกถอนจำนวน " + val_qty + " บาท";
+          history.appendChild(li);
+          val_qty = 0;
+          qty.value = val_qty;
+          Swal.fire({
+            icon: "success",
+            title: "สำเร็จ",
+            text: "ถอนเงินสำเร็จ",
+            footer: 'ยินดีให้บริการ',
+          });
+        }else{
+            Swal.fire({
+            icon: "error",
+            title: "ขออภัย",
+            text: "ยอดเงินของคุณไม่เพียงพอ",
+            footer: 'กรุณาลองใหม่อีกครั้ง',
+          });
+          val_qty = 0;
+          qty.value = val_qty;
+        }
+        let afterbank=document.getElementById("bank")
+        let afterval_bank = parseInt(afterbank.innerText);
+        console.log(afterval_bank)
+        if(afterval_bank==0){
+            let element=document.getElementById("box")
+            element.classList.add("alert-dark")
+            element.classList.remove("alert-warning")
+            element.classList.remove("alert-danger")
+        }else if(afterval_bank<=5000){
+            let element=document.getElementById("box")
+            element.classList.add("alert-danger")
+            element.classList.remove("alert-warning")
+            element.classList.remove("alert-dark")
+        }
+      }
+      function clearrr() {
+        document.getElementById("num").value = 0;
+      }
+      function changecolor(){
+        let cart = document.getElementById("wallet");
+        let val_cart = parseInt(cart.innerText);
+        let bank = document.getElementById("bank");
+        let val_bank = parseInt(bank.innerText);
+        
+      }
+    </script>
+  </body>
+</html>

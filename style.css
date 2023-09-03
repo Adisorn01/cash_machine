@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+*{
+    font-family: 'Itim', cursive;
+}
+h1{
+    text-align: center;
+}
+.container{
+    margin: 5%;
+    border-top: solid 1px rgb(0, 0, 0,0.5);
+    border-bottom: solid 1px rgb(0, 0, 0,0.5);
+    text-align: center;
+    display: grid;
+    grid-template-areas:
+    "h1"
+    "input"
+    "b1"
+    "b2"
+    ;
+}
+.container h1{
+    grid-area: h1;
+}
+.button1{
+    grid-area: b1;
+}
+.button2{
+    grid-area: b2;
+}
+.container input{
+    text-align: right;
+    margin-bottom: 10px;
+    grid-area: input;
+}
+.bottom-container{
+    display: grid;
+    margin: 5%;
+    grid-template-areas:
+     "his money"
+    ;
+}
+.button1 button{
+    width: 20%;
+}
+.button2 button{
+    width: 25%;
+}
+.history{
+    grid-area: his;
+}
+.money{
+    grid-area: money;
+}
+footer{
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 20px;
+}
